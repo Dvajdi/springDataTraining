@@ -29,6 +29,7 @@ public class Go {
     contactAudit.setFirstName("Pavel");
     contactAudit.setLastName("Matashnyuk");
     contactAudit.setBirthDate(new Date());
+    contactAudit.setVersion(1);
     contactAuditService.save(contactAudit);
 
     contacts = contactAuditService.findAll();

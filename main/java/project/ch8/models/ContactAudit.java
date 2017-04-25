@@ -14,10 +14,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import org.hibernate.annotations.Type;
+import org.hibernate.envers.Audited;
 import org.springframework.data.domain.Auditable;
 import org.joda.time.DateTime;
 
 @Entity
+@Audited
 @Table(name = "contact_audit")
 public class ContactAudit implements Auditable<String, Long>, Serializable {
   private Long id;

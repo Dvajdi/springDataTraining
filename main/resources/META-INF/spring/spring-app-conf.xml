@@ -26,7 +26,7 @@
           p:driverClassName="${jdbc.driver}"/>
 
     <jdbc:initialize-database data-source="datasource">
-        <jdbc:script location="classpath:META-INF/sql/CREATE_HEBERNATE_SCRIPT.sql"/>
+        <jdbc:script location="classpath:META-INF/sql/CREATE_HEBERNATE_SCRIPT_AUDIT_H.sql"/>
     </jdbc:initialize-database>
 
    <tx:annotation-driven transaction-manager="transactionManager"/>
@@ -51,6 +51,22 @@
                 <prop key="hibernate.jdbc.fetch_size">50</prop>
                 <prop key="hibernate.jdbc.batch_size">10</prop>
                 <prop key="hibernate.show_sql">true</prop>
+
+                <prop key="org.hibernate.envers.audit_table_suffix">_H</prop>
+                <prop key="org.hibernate.envers.revision_field_name">AUDIT_REVISION</prop>
+                <prop key="org.hibernate.envers.revision_type_field_name">ACTION_TYPE</prop>
+                <prop key="org.hibernate.envers.audit_strategy">
+                    org.hibernate.envers.strategy.ValidityAuditStrategy
+                </prop>
+                <prop key="org.hibernate.envers.audit_strategy_validity_end_rev_field_name">
+                    AUDIT_REVISION_END
+                </prop>
+                <prop key="org.hibernate.envers.audit_strategy_validity_store_revend_timestamp">
+                    True
+                </prop>
+                <prop key="org.hibernate.envers.audit_strategy_validity_revend_timestamp_field_name">
+                    AUDIT_REVISION_END_TS
+                </prop>
             </props>
         </property>
     </bean>

@@ -2,12 +2,16 @@ package project.ch8.services;
 
 
 import com.google.common.collect.Lists;
+import org.hibernate.envers.AuditReader;
+import org.hibernate.envers.AuditReaderFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.ch8.models.ContactAudit;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Service("contactAuditService")
@@ -16,6 +20,9 @@ import java.util.List;
 public class ContactAuditServiceImpl implements ContactAuditService{
   @Autowired
   private ContactAuditRepository contactAuditRepository;
+
+  @PersistenceContext
+  private EntityManager entityManager;
 
   @Transactional(readOnly = true)
   public List<ContactAudit> findAll() {
@@ -28,5 +35,11 @@ public class ContactAuditServiceImpl implements ContactAuditService{
 
   public ContactAudit save(ContactAudit contactAudit) {
     return contactAuditRepository.save(contactAudit);
+  }
+
+  @Transactional(readOnly = true)
+  public ContactAudit findAuditByRevision(Long id, int revision) {
+    AuditReader auditReader = AuditReaderFactory.get(entityManager);
+    return auditReader.find(ContactAudit.class,id,revision);
   }
 }
